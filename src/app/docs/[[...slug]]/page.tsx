@@ -63,7 +63,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 
 			<DocsDescription>{page.data.description}</DocsDescription>
 
-			<hr className="border-t border-[#202225] w-full" />
+			<hr className="border-t border-fd-accent w-full" />
 
 			<br />
 
