@@ -35,21 +35,20 @@ export async function getLastModifiedTime(path: string): Promise<string> {
 }
 
 export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
-	const params = await props.params;
-	const page = source.getPage(params.slug);
+	const { slug } = await props.params;
+
+	const page = slug?.length ? source.getPage(slug) : source.getPage(["index"]);
+
 	if (!page) notFound();
 
 	const markdownContent = await getLLMText(page);
+
 	const MDX = page.data.body;
 
 	return (
 		<DocsPage
 			toc={page.data.toc}
-			breadcrumb={{
-				enabled: true,
-				includePage: true,
-				includeRoot: true,
-			}}
+			breadcrumb={{ enabled: true, includePage: true, includeRoot: true }}
 		>
 			<DocsTitle>{page.data.title}</DocsTitle>
 			<div className="flex gap-3 text-xs!">
@@ -62,19 +61,17 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 			</div>
 
 			<DocsDescription>{page.data.description}</DocsDescription>
-
 			<hr className="border-t border-fd-accent w-full" />
-
 			<br />
 
 			<DocsBody>
 				<MDX
 					components={getMDXComponents({
-						// this allows you to link to other pages with relative file paths
 						a: createRelativeLink(source, page),
 					})}
 				/>
 			</DocsBody>
+
 			<div className="opacity-50 mt-40 flex gap-1">
 				<CalendarClock className="scale-90" />
 				<p>{await getLastModifiedTime(page.path)}</p>
@@ -83,15 +80,11 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 	);
 }
 
-export async function generateStaticParams() {
-	return source.generateParams();
-}
-
 export async function generateMetadata(
 	props: PageProps<"/docs/[[...slug]]">,
 ): Promise<Metadata> {
-	const params = await props.params;
-	const page = source.getPage(params.slug);
+	const { slug } = await props.params;
+	const page = slug?.length ? source.getPage(slug) : source.getPage(["index"]);
 	if (!page) notFound();
 
 	return {
@@ -103,4 +96,8 @@ export async function generateMetadata(
 			apple: "/favicon.ico",
 		},
 	};
+}
+
+export async function generateStaticParams() {
+	return source.generateParams();
 }

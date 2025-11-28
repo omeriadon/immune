@@ -1,10 +1,7 @@
 import Link, { type LinkProps } from "next/link";
 import {
 	Baby,
-	Building2,
 	CirclePower,
-	Library,
-	Pencil,
 	PersonStanding,
 	Replace,
 } from "lucide-react";
