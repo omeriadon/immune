@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import { source } from "@/lib/source";
+import { getLLMText } from "@/lib/get-llm-text";
 import { LLMCopyButton, ViewOptions } from "@/components/page-actions";
 import {
 	DocsBody,
@@ -38,6 +39,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 	const page = source.getPage(params.slug);
 	if (!page) notFound();
 
+	const markdownContent = await getLLMText(page);
 	const MDX = page.data.body;
 
 	return (
@@ -49,19 +51,19 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
 				includeRoot: true,
 			}}
 		>
-			<div>
-				<DocsTitle>{page.data.title}</DocsTitle>
-				<div className="flex gap-3 text-xs!">
-					<LLMCopyButton markdownUrl={`${page.url}.mdx`} />
-					<ViewOptions
-						markdownUrl={`${page.url}.mdx`}
-						githubUrl={`https://github.com/omeriadon/immune/content/docs/${page.path}`}
-					/>
-				</div>
+			<DocsTitle>{page.data.title}</DocsTitle>
+			<div className="flex gap-3 text-xs!">
+				<LLMCopyButton markdownUrl={`${page.url}.mdx`} />
+				<ViewOptions
+					markdownUrl={`${page.url}.mdx`}
+					githubUrl={`https://github.com/omeriadon/immune/tree/main/content/docs/${page.path}`}
+					markdownContent={markdownContent}
+				/>
 			</div>
+
 			<DocsDescription>{page.data.description}</DocsDescription>
 
-			<hr className="border border-fd-ring w-full" />
+			<hr className="border-t border-[#202225] w-full" />
 
 			<br />
 
