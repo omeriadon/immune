@@ -5,6 +5,7 @@ import { icons, ShieldPlus } from "lucide-react";
 import { source } from "@/lib/source";
 
 const reportIcon = createElement(icons["MessageCircle"]);
+const powerIcon = createElement(icons["Power"]);
 
 export default function Layout({ children }: LayoutProps<"/docs">) {
 	const base = baseOptions();
@@ -17,19 +18,29 @@ export default function Layout({ children }: LayoutProps<"/docs">) {
 			links={[
 				{
 					type: "icon",
+					text: "Introduction",
+					icon: powerIcon,
+					url: "/docs/introduction",
+				},
+				{
+					type: "icon",
 					text: "Report Issue",
 					icon: reportIcon,
 					url: "https://github.com/omeriadon/immune/issues/new",
+					external: true,
 				},
 			]}
+			tabMode="auto"
 			nav={{
 				...base.nav,
 				enabled: true,
-				transparentMode: "always",
 				title: (
 					<>
-						<ShieldPlus className="size-9 text-fd-background stroke-[2.5] fill-fd-primary" />
-						<span className="font-medium text-2xl text-fd-primary">Immune</span>
+						<ShieldPlus
+							className="size-9 stroke-[2.5] text-fd-primary-foreground"
+							fill="var(--color-fd-primary)"
+						/>
+						<span className="font-bold text-2xl text-fd-primary">Immune</span>
 					</>
 				),
 			}}

@@ -14,7 +14,6 @@ import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { getGithubLastEdit } from "fumadocs-core/content/github";
 import { CalendarClock, ChevronRight } from "lucide-react";
-import { loader } from "fumadocs-core/source";
 
 export async function getLastModifiedTime(path: string): Promise<string> {
 	if (process.env.NODE_ENV === "development") {
@@ -88,6 +87,10 @@ export default async function Page(props: PageProps<"/docs/[...slug]">) {
 	return (
 		<DocsPage
 			toc={page.data.toc}
+			tableOfContent={{
+				single: true,
+				style: "normal",
+			}}
 			breadcrumb={{
 				enabled: true,
 				component: (
