@@ -3,12 +3,12 @@ import { Baby, Power, PersonStanding, Replace } from "lucide-react";
 
 export default function DocsPage() {
 	return (
-		<main className="w-full max-w-page mx-auto flex flex-col flex-1 justify-center items-center px-4 py-16 text-center z-2">
+		<main className="flex flex-col justify-center items-center px-4 py-16 text-center z-2">
 			<h1 className="mb-4 text-3xl font-semibold md:text-4xl">Immune.</h1>
 			<p className="text-fd-muted-foreground">
 				The different sections of the immune system.
 			</p>
-			<div className="mt-8 grid grid-cols-1 gap-4 text-start md:grid-cols-2">
+			<div className="mt-8 grid gap-4 text-start w-full md:w-[80vh]">
 				{[
 					{
 						name: "Introduction",
@@ -36,8 +36,10 @@ export default function DocsPage() {
 					},
 				].map((item) => (
 					<Item key={item.name} href={item.href}>
-						<Icon>{item.icon}</Icon>
-						<h2 className="mb-2 font-medium">{item.name}</h2>
+						<div className="flex gap-3 items-center mb-1">
+							<Icon>{item.icon}</Icon>
+							<h2 className="mb-2 font-medium">{item.name}</h2>
+						</div>
 						<p className="text-sm text-fd-muted-foreground">
 							{item.description}
 						</p>
@@ -58,7 +60,10 @@ function Icon({ children }: { children: React.ReactNode }) {
 
 function Item(props: LinkProps & { children: React.ReactNode }) {
 	return (
-		<Link {...props} className="bg-fd-card rounded-2xl border p-4 shadow-lg">
+		<Link
+			{...props}
+			className="bg-fd-card rounded-2xl border p-4 shadow-lg hover:bg-fd-popover transition-all"
+		>
 			{props.children}
 		</Link>
 	);

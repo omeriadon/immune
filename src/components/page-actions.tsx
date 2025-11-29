@@ -5,6 +5,7 @@ import {
 	ChevronDown,
 	Copy,
 	ExternalLinkIcon,
+	Forward,
 	MessageCircleIcon,
 } from "lucide-react";
 import { cn } from "../lib/cn";
@@ -232,6 +233,7 @@ export function ViewOptions({
 					}),
 				)}
 			>
+				<Forward className="size-3.5 text-fd-muted-foreground" />
 				Send
 				<ChevronDown className="size-3.5 text-fd-muted-foreground" />
 			</PopoverTrigger>
