@@ -4,8 +4,25 @@
 
 :root {
 	--fd-layout-width: 100vw;
+
 	--introduction-color: hsl(33, 100%, 50%);
-	--adaptive-immunity-color: hsl(33, 100%, 50%);
+	--adaptive-immunity-color: green;
 	--innate-immunity-color: hsl(250, 80%, 54%);
-	--immune-organs-tissues-color: hsl(41, 100%, 40%);
+	--immune-organs-tissues-color: red;
+}
+
+.introduction {
+	--color-fd-primary: var(--introduction-color);
+}
+
+.adaptive-immunity {
+	--color-fd-primary: var(--adaptive-immunity-color);
+}
+
+.innate-immunity {
+	--color-fd-primary: var(--innate-immunity-color);
+}
+
+.immune-organs-tissues {
+	--color-fd-primary: var(--immune-organs-tissues-color);
 }

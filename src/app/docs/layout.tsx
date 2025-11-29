@@ -3,6 +3,7 @@ import { baseOptions } from "@/lib/layout.shared";
 import { createElement } from "react";
 import { icons, ShieldPlus } from "lucide-react";
 import { source } from "@/lib/source";
+import { DynamicThemeWrapper } from "./layout.client"; // Import the wrapper
 
 const reportIcon = createElement(icons["MessageCircle"]);
 const powerIcon = createElement(icons["Power"]);
@@ -11,67 +12,71 @@ export default function Layout({ children }: LayoutProps<"/docs">) {
 	const base = baseOptions();
 
 	return (
-		<DocsLayout
-			tree={source.pageTree}
-			{...base}
-			githubUrl="https://github.com/omeriadon/immune"
-			links={[
-				{
-					type: "icon",
-					text: "Introduction",
-					icon: powerIcon,
-					url: "/docs/introduction",
-				},
-				{
-					type: "icon",
-					text: "Report Issue",
-					icon: reportIcon,
-					url: "https://github.com/omeriadon/immune/issues/new",
-					external: true,
-				},
-			]}
-			tabMode="auto"
-			nav={{
-				...base.nav,
-				enabled: true,
-				title: (
-					<>
-						<ShieldPlus
-							className="size-9 stroke-[2.5] text-fd-primary-foreground"
-							fill="var(--color-fd-primary)"
-						/>
-						<span className="font-bold text-2xl text-fd-primary">Immune</span>
-					</>
-				),
-			}}
-			sidebar={{
-				tabs: {
-					transform(option, node) {
-						const meta = source.getNodeMeta(node);
-						if (!meta || !node.icon) return option;
-
-						const color = `var(--${meta.path.split("/")[0]}-color, var(--color-fd-foreground))`;
-
-						return {
-							...option,
-							icon: (
-								<div
-									className="[&_svg]:size-full rounded-lg size-full text-(--tab-color) max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5"
-									style={
-										{
-											"--tab-color": color,
-										} as object
-									}
-								>
-									{node.icon}
-								</div>
-							),
-						};
+		<DynamicThemeWrapper>
+			<DocsLayout
+				tree={source.pageTree}
+				{...base}
+				githubUrl="https://github.com/omeriadon/immune"
+				links={[
+					{
+						type: "icon",
+						text: "Introduction",
+						icon: powerIcon,
+						url: "/docs/introduction",
 					},
-				},
-			}}
-		>
-			{children}
-		</DocsLayout>
+					{
+						type: "icon",
+						text: "Report Issue",
+						icon: reportIcon,
+						url: "https://github.com/omeriadon/immune/issues/new",
+						external: true,
+					},
+				]}
+				tabMode="auto"
+				nav={{
+					...base.nav,
+					enabled: true,
+					title: (
+						<>
+							<ShieldPlus
+								className="size-9 stroke-[2.5] text-fd-primary-foreground"
+								fill="var(--color-fd-primary)"
+							/>
+							<span className="font-bold text-2xl text-fd-primary">Immune</span>
+						</>
+					),
+				}}
+				sidebar={{
+					tabs: {
+						transform(option, node) {
+							const meta = source.getNodeMeta(node);
+							if (!meta || !node.icon) return option;
+
+							const firstSlug = meta.path.split("/")[0];
+
+							const color = `var(--${firstSlug}-color, var(--color-fd-foreground))`;
+
+							return {
+								...option,
+								icon: (
+									<div
+										className="[&_svg]:size-full rounded-lg size-full text-(--tab-color) max-md:bg-(--tab-color)/10 max-md:border max-md:p-1.5"
+										style={
+											{
+												"--tab-color": color,
+											} as object
+										}
+									>
+										{node.icon}
+									</div>
+								),
+							};
+						},
+					},
+				}}
+			>
+				{children}
+			</DocsLayout>
+		</DynamicThemeWrapper>
 	);
 }

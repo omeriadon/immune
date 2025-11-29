@@ -36,7 +36,6 @@ export async function getLastModifiedTime(path: string): Promise<string> {
 function getFolderName(slugSegment: string | number): string {
 	const tree = source.pageTree;
 
-	// Convert to string first
 	const segment = String(slugSegment);
 
 	for (const node of tree.children) {
