@@ -180,7 +180,6 @@ export function ViewOptions({
 			{
 				title: "Send to ChatGPT",
 				href: `https://chatgpt.com/?${new URLSearchParams({
-					hints: "search",
 					q,
 				})}`,
 				icon: (
